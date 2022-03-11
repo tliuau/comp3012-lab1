@@ -40,5 +40,9 @@ public class Note implements Comparable<Note>{
         else return 0;
 
     }
+
+    public String toString(){
+        return date.toString() + "\t" + title;
+    }
     
 }

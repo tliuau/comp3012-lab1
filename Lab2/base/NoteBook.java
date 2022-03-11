@@ -14,6 +14,12 @@ public class NoteBook {
         return insertNote(folderName,note);
     }
 
+    public boolean createTextNote(String folderName, String title, String content){
+        TextNote note = new TextNote(title);
+        note.setContent(content);
+        return insertNote(folderName,note);
+    }
+
     public boolean createImageNote(String folderName, String title){
         ImageNote note = new ImageNote(title);
         return insertNote(folderName,note);
@@ -61,9 +67,13 @@ public class NoteBook {
 
     public void sortFolders(){
         for (Folder f1:folders){
-            Folder.sortNotes();
+            f1.sortNotes();
         }
 
         Collections.sort(folders);
+    }
+
+    public List<Note> searchNotes(String keywords){
+        
     }
 }

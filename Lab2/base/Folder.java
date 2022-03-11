@@ -2,7 +2,7 @@ package base;
 
 import java.util.*;
 
-public class Folder implements Comparable<Note>{
+public class Folder implements Comparable<Folder>{
     private ArrayList<Note> notes;
     private String name;
 
@@ -43,7 +43,6 @@ public class Folder implements Comparable<Note>{
         return Objects.equals(name, other.name);
     }
 
-    @Override
     public int compareTo(Folder o){
         //Compares this note to note o based on date
         //Return 1 of greater than o
@@ -62,28 +61,46 @@ public class Folder implements Comparable<Note>{
         Collections.sort(notes);
     }
 
+
     public List<Note> searchNotes(String keywords){
-        String [] kw;
+        String [] kw = new String[0];
         int x = 0;
 
         //While loop to log all of the char in keywords
         for (int i = 0; i < keywords.length(); ++i){
-            if (keywords.charAt(i) == "/n") {x = x + 1;}
+            if (keywords.charAt(i) == '\n') {x = x + 1;}
             else {kw[x] = kw[x] + keywords.charAt(i);}
         }
         //If space, put word into array
         //Stop when there is no words
-        ArrayList<Note> results [];
+        ArrayList<Note> results = new ArrayList<Note>();
 
 
         //Then see if there is an or
-        for (int j = 0; j < kw.length; ++j){
+        for (int j = 0; j < kw.length; ++j){ //J = current note being searched
             if (kw[j+1] == "OR") {
                 
                 continue;
             }
-            if (   );
+            else{
+                for (Note n : notes){
+                    if (n instanceof ImageNote){
+                        String title = n.getTitle();
+                        if (title.contains(kw[j]) == true ){
+                            results.add(n);
+                        }
+                    }
+                    else if (n instanceof TextNote){
+                        String title = n.getTitle();
+                        String content = ((TextNote)n).getContent();
+                        if(title.contains(kw[j]) == true || content.contains(kw[j]) == true){
+                            
+                        }
+                    }
+                }
+            }
         }
+        return results;
     }
     
 }
