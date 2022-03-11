@@ -62,40 +62,63 @@ public class Folder implements Comparable<Folder>{
     }
 
     public List<Note> searchNotes(String keywords){
-        String [] kw = new String[0];
-        int x = 0;
+        keywords = keywords + "\n";
+        //1. Create String list of keywords, in order to separate into different words
+        List<String> kw;
+        kw = new ArrayList<String>();
+
+        //2. Char list s to log single keywords
+        String s = "";
 
         //While loop to log all of the char in keywords
         for (int i = 0; i < keywords.length(); ++i){
-            if (keywords.charAt(i) == '\n') {x = x + 1;}
-            else {kw[x] = kw[x] + keywords.charAt(i);}
+            //When space or at end of keywords:
+                //a. Convert s-list into string
+                //b. append to kw
+                //c. clear s
+            if (keywords.charAt(i) == ' ' || i == keywords.length()-1) {
+                kw.add(s);
+                s = "";
+            }
+
+            else {
+                //If there is no space, add chars into a string
+                s = s + keywords.charAt(i);
+            }
         }
-        //If space, put word into array
-        //Stop when there is no words
-        ArrayList<Note> results = new ArrayList<Note>();
+        
+
+        //Searched notes list
+        ArrayList<Note> results;
+        results = new ArrayList<Note>();
 
 
-        //Then see if there is an or
-        for (int j = 0; j < kw.length; ++j){ //J = current note being searched
+        //3. Searching
 
-            if (kw[j+1] == "OR" || kw[j+1] == "or") { //If there's an or, 
-                for (Note n : notes){
+            //If word == or: 
+
+        for (int i = 0; i < kw.size(); ++i){ //For each word in kw
+            //System.out.println(k);
+            //System.out.println(kw.get(i));
+
+            //If there is an or, get sandwiching terms into or box
+            if ( kw.get(i)== "OR" || kw.get(i) == "or") { 
+                for (Note n : notes){//Search the 2 types of notes
                     if (n instanceof ImageNote){
                         String title = n.getTitle();
-                        if (title.contains(kw[j]) == true || title.contains(kw[j+1])==true){
+                        if (title.contains(kw.get(i-1)) == true || title.contains(kw.get(i+1))==true){
                             results.add(n);
                         }
                     }
                     else if (n instanceof TextNote){
                         String title = n.getTitle();
                         String content = ((TextNote)n).getContent();
-                        if((title.contains(kw[j]) == true || content.contains(kw[j]) == true) || (title.contains(kw[j+2]) == true || content.contains(kw[j+2]) == true)){
+                        if((title.contains(kw.get(i-1)) == true || content.contains(kw.get(i-1)) == true) || (title.contains(kw.get(i+1)) == true || content.contains(kw.get(i+1)) == true)){
                             results.add(n);
                         }
                     }
-                }
+                } //results append notes that has either of the or-words
 
-                j = j + 2;
                 continue;
             }
 
@@ -103,14 +126,23 @@ public class Folder implements Comparable<Folder>{
                 for (Note n : notes){
                     if (n instanceof ImageNote){
                         String title = n.getTitle();
-                        if (title.contains(kw[j]) == true ){
+                        if (title.contains(kw.get(i)) == true 
+                            && title.contains(kw.get(i+1)) 
+                            && kw.get(i+1) != "OR" 
+                            && kw.get(i+1) != "or"){
+
                             results.add(n);
                         }
                     }
                     else if (n instanceof TextNote){
                         String title = n.getTitle();
                         String content = ((TextNote)n).getContent();
-                        if(title.contains(kw[j]) == true || content.contains(kw[j]) == true){
+                        if(title.contains(kw.get(i)) == true || content.contains(kw.get(i)) == true
+                            //&& title.contains(kw.get(i+1)) == true  || content.contains(kw.get(i+1)) == true
+                            //&& kw.get(i+1) != "OR" 
+                            //&& kw.get(i+1) != "or"
+                            ){
+
                             results.add(n);
                         }
                     }
@@ -118,6 +150,8 @@ public class Folder implements Comparable<Folder>{
             }
         }
         return results;
+    
     }
+    
     
 }
