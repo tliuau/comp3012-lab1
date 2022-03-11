@@ -61,7 +61,6 @@ public class Folder implements Comparable<Folder>{
         Collections.sort(notes);
     }
 
-
     public List<Note> searchNotes(String keywords){
         String [] kw = new String[0];
         int x = 0;
@@ -79,18 +78,18 @@ public class Folder implements Comparable<Folder>{
         //Then see if there is an or
         for (int j = 0; j < kw.length; ++j){ //J = current note being searched
 
-            if (kw[j+1] == "OR") {
+            if (kw[j+1] == "OR" || kw[j+1] == "or") { //If there's an or, 
                 for (Note n : notes){
                     if (n instanceof ImageNote){
                         String title = n.getTitle();
-                        if (title.contains(kw[j]) == true ){
+                        if (title.contains(kw[j]) == true || title.contains(kw[j+1])==true){
                             results.add(n);
                         }
                     }
                     else if (n instanceof TextNote){
                         String title = n.getTitle();
                         String content = ((TextNote)n).getContent();
-                        if(title.contains(kw[j]) == true || content.contains(kw[j]) == true){
+                        if((title.contains(kw[j]) == true || content.contains(kw[j]) == true) || (title.contains(kw[j+2]) == true || content.contains(kw[j+2]) == true)){
                             results.add(n);
                         }
                     }
@@ -100,7 +99,7 @@ public class Folder implements Comparable<Folder>{
                 continue;
             }
 
-            else{
+            else{ //If there's no or
                 for (Note n : notes){
                     if (n instanceof ImageNote){
                         String title = n.getTitle();

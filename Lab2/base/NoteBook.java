@@ -74,10 +74,27 @@ public class NoteBook {
     }
 
     public List<Note> searchNotes(String keywords){
-        ArrayList<Note> results = new ArrayList<Note>();
+        String [] kw = new String[0];
+        int x = 0;
+
+        //CONVERT keywords into kw arr
+        for (int i = 0; i < keywords.length(); ++i){
+            if (keywords.charAt(i) == '\n') {x = x + 1;}
+            else {kw[x] = kw[x] + keywords.charAt(i);}
+        }
+
+        List<Note> results = new ArrayList<Note>();
 
 
-        
+        //Then see if there is an or
+        for (int j = 0; j < kw.length; ++j){ //J = current note being searched
+            for (Folder n: folders){
+                List<Note> res = n.searchNotes(keywords);
+                for (Note m: res){
+                    results.add(m);
+                }
+            }
+        }
         return results;
     }
 }
