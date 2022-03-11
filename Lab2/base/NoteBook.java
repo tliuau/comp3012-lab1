@@ -57,5 +57,13 @@ public class NoteBook {
                 //System.out.println("No note named " + note.getTitle());
                 return true;
     }
+    
 
+    public void sortFolders(){
+        for (Folder f1:folders){
+            Folder.sortNotes();
+        }
+
+        Collections.sort(folders);
+    }
 }
