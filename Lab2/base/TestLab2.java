@@ -3,7 +3,7 @@ package base;
 public class TestLab2 {
 
 		public static void main(String args[]){
-			
+			/*
 			NoteBook nb = new NoteBook();
 			boolean b;
 			int numSucceed = 0;
@@ -38,6 +38,6 @@ public class TestLab2 {
 			System.out.println("Successfully created " + numSucceed + " notes");
 			for(Folder f : nb.getFolders()){
 				System.out.println(f.toString());
-			}
+			}*/
 		}
 	}

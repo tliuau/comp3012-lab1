@@ -78,10 +78,28 @@ public class Folder implements Comparable<Folder>{
 
         //Then see if there is an or
         for (int j = 0; j < kw.length; ++j){ //J = current note being searched
+
             if (kw[j+1] == "OR") {
-                
+                for (Note n : notes){
+                    if (n instanceof ImageNote){
+                        String title = n.getTitle();
+                        if (title.contains(kw[j]) == true ){
+                            results.add(n);
+                        }
+                    }
+                    else if (n instanceof TextNote){
+                        String title = n.getTitle();
+                        String content = ((TextNote)n).getContent();
+                        if(title.contains(kw[j]) == true || content.contains(kw[j]) == true){
+                            results.add(n);
+                        }
+                    }
+                }
+
+                j = j + 2;
                 continue;
             }
+
             else{
                 for (Note n : notes){
                     if (n instanceof ImageNote){
@@ -94,7 +112,7 @@ public class Folder implements Comparable<Folder>{
                         String title = n.getTitle();
                         String content = ((TextNote)n).getContent();
                         if(title.contains(kw[j]) == true || content.contains(kw[j]) == true){
-                            
+                            results.add(n);
                         }
                     }
                 }

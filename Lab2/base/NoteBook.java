@@ -74,6 +74,10 @@ public class NoteBook {
     }
 
     public List<Note> searchNotes(String keywords){
+        ArrayList<Note> results = new ArrayList<Note>();
+
+
         
+        return results;
     }
 }
